@@ -1,4 +1,11 @@
-import { EdgeProps, getBezierPath, BaseEdge, Edge, Node } from "@xyflow/react";
+import {
+  EdgeProps,
+  getBezierPath,
+  BaseEdge,
+  Edge,
+  Node,
+  NodeProps,
+} from "@xyflow/react";
 import { useMemo, useEffect } from "react";
 
 export type AnimatedEdgeType = Edge<
@@ -10,7 +17,6 @@ const nodeSpeed = 1500;
 
 export const AnimatedEdge = ({
   id,
-  data = { node: id, text: "" },
   sourceX,
   sourceY,
   targetX,
@@ -26,11 +32,13 @@ export const AnimatedEdge = ({
     targetY,
     targetPosition,
   });
+
   const selector = useMemo(() => `.react-flow__node[data-id="${id}"]`, [id]);
 
   useEffect(() => {
     const node = document.querySelector(selector) as HTMLElement;
     const text = document.getElementById(`${id}text`);
+
     if (!node || !text) return;
 
     const animateNode = () => {
@@ -47,15 +55,15 @@ export const AnimatedEdge = ({
 
       node.style.visibility = "visible";
       text.innerText = "HTTP GET";
-      text.style.bottom = '8px'
-      text.style.top = ''
+      text.style.bottom = "8px";
+      text.style.top = "";
 
       animation.onfinish = () => {
         node.style.visibility = "hidden";
         const reverseInterval = setTimeout(() => {
           node.style.visibility = "visible";
-          text.style.top = '8px'
-          text.style.bottom = ''
+          text.style.top = "8px";
+          text.style.bottom = "";
           text.innerText = "200 HTML";
           const reverseAnimation = node.animate(keyframes, {
             duration: nodeSpeed,
@@ -89,7 +97,7 @@ export const AnimatedEdge = ({
   );
 };
 
-export const AnimatedEdgeNode = () => {
+export const AnimatedEdgeNode = (data: NodeProps) => {
   return (
     <div
       style={{
@@ -100,7 +108,7 @@ export const AnimatedEdgeNode = () => {
       }}
     >
       <p
-        id="1->2text"
+        id={data.id + "text"}
         style={{ position: "absolute", fontSize: "10px" }}
       ></p>
     </div>

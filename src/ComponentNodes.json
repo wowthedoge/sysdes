@@ -1,0 +1,14 @@
+{
+    "WebClient": {
+        "nodeName": "WebClientNode",
+        "iconDirectory": "/assets/web-client.png/"
+    },
+    "Server": {
+        "nodeName": "ServerNode",
+        "iconDirectory": "/assets/server.png/"
+    },
+    "Database": {
+        "nodeName": "DatabaseNode",
+        "iconDirectory": "/assets/database.png/"
+    }
+}
