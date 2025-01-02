@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ReactFlow,
   useNodesState,
@@ -15,6 +21,7 @@ import {
   getBezierPath,
   useReactFlow,
   ReactFlowProvider,
+  MarkerType,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -23,24 +30,13 @@ import { ServerNode } from "./ServerNode";
 import { WebClientNode } from "./WebClientNode";
 import ComponentMenu from "./ComponentMenu";
 import { DnDProvider, useDnD } from "./DnDContext";
+import { GenericNode } from "./GenericNode";
+import TextInputEdge from "./TextInputEdge";
 
-const nodeTypes = { WebClientNode, ServerNode, AnimatedEdgeNode };
-const initialNodes: Node[] = [
-  {
-    id: `WebClientNode${Date.now()}`,
-    type: "WebClientNode",
-    position: { x: 200, y: 400 },
-    data: {},
-  },
-  {
-    id: `ServerNode${Date.now()}`,
-    type: "ServerNode",
-    position: { x: 500, y: 400 },
-    data: {},
-  },
-];
+const nodeTypes = { GenericNode, AnimatedEdgeNode };
+const initialNodes: Node[] = [];
 
-const edgeTypes = { AnimatedEdge };
+const edgeTypes = { AnimatedEdge, TextInputEdge };
 const initialEdges: Edge[] = [];
 
 const App = () => {
@@ -49,6 +45,28 @@ const App = () => {
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
+  //       addEdge(
+  //         {
+  //           id: `${params.source}->${params.target}`,
+  //           source: params.source,
+  //           target: params.target,
+  //           type: "AnimatedEdge",
+  //         },
+  //         eds
+  //       )
+  //     );
+  //     setNodes((nds) =>
+  //       nds.concat({
+  //         id: `${params.source}->${params.target}`,
+  //         type: "AnimatedEdgeNode",
+  //         position: { x: 0, y: 0 },
+  //         style: { visibility: "hidden" },
+  //         data: { text: "HTTP GET" },
+  //       })
+  //     );
+  //   },
+  //   [setEdges]
+  // );
 
   const onConnect = useCallback(
     (params: any) => {
@@ -58,19 +76,20 @@ const App = () => {
             id: `${params.source}->${params.target}`,
             source: params.source,
             target: params.target,
-            type: "AnimatedEdge",
+            // markerEnd: {
+            //   type: MarkerType.ArrowClosed,
+            //   width: 10,
+            //   height: 10,
+            //   color: '#000',
+            // },
+            type: "TextInputEdge",
+            // style: {
+            //   strokeWidth: 2,
+            //   stroke: '#000',
+            // },
           },
           eds
         )
-      );
-      setNodes((nds) =>
-        nds.concat({
-          id: `${params.source}->${params.target}`,
-          type: "AnimatedEdgeNode",
-          position: { x: 0, y: 0 },
-          style: { visibility: "hidden" },
-          data: { text: "HTTP GET" },
-        })
       );
     },
     [setEdges]
@@ -95,9 +114,9 @@ const App = () => {
       });
       const newNode = {
         id: type + Date.now(),
-        type,
+        type: "GenericNode",
         position,
-        data: {},
+        data: { name: type },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -145,3 +164,4 @@ export default () => (
     </DnDProvider>
   </ReactFlowProvider>
 );
+

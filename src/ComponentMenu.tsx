@@ -1,9 +1,16 @@
 import React from "react";
 import { useDnD } from "./DnDContext";
+import * as changeCase from "change-case";
 
 const components = [
-    { name: "WebClientNode", iconDirectory: "/assets/web-client.png" },
-    { name: "ServerNode", iconDirectory: "/assets/server.png" },
+  { name: "web-client", iconDirectory: "/assets/web-client.png" },
+  { name: "server", iconDirectory: "/assets/server.png" },
+  { name: "cache", iconDirectory: "/assets/cache.png" },
+  { name: "database", iconDirectory: "/assets/database.png" },
+  { name: "load-balancer", iconDirectory: "/assets/load-balancer.png" },
+  { name: "message-queue", iconDirectory: "/assets/message-queue.png" },
+  { name: "mobile-client", iconDirectory: "/assets/mobile-client.png" },
+  { name: "service", iconDirectory: "/assets/service.png" },
 ];
 
 const ComponentMenu = () => {
@@ -62,8 +69,8 @@ const ComponentMenuItem = ({
       onDragStart={(event) => onDragStart(event, componentName)}
       draggable
       style={{
-        width: "200px",
-        height: "200px",
+        width: "100px",
+        height: "100px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -75,10 +82,10 @@ const ComponentMenuItem = ({
     >
       <img
         src={iconDirectory}    
-        alt={componentName}
-        style={{ width: "100px", height: "100px", marginBottom: "10px" }}
+        alt={changeCase.capitalCase(componentName)}
+        style={{ width: "50px", height: "50px", marginBottom: "10px" }}
       />
-      <span>{componentName}</span>
+      <span style={{fontSize: '10px'}}>{componentName}</span>
     </div>
   );
 };
